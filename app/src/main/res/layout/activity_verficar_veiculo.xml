@@ -39,24 +39,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/placa_do_ve_culo"
-        android:minHeight="48dp"
+        android:minHeight="50dp"
         android:textSize="24sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@color/white"
         android:textAlignment="center"
+        android:id="@+id/etPlaca"
         />
 
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnConsultar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:text="Consultar"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:backgroundTint="#003383"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Consultar" />
+        android:layout_gravity="center_horizontal"
+        android:text="Não há pagamentos encontrados para a placa inserida"
+        android:textSize="24dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/design_default_color_error"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:id="@+id/tvMsgStatus"
+        />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registrar Irregularidade" />
+        android:id="@+id/btnRegistrar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:text="Registrar irregularidade"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:backgroundTint="#003383"
+        android:visibility="gone"
+        />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
