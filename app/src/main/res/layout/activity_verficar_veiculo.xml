@@ -14,7 +14,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="wrap_content"
         android:background="#003383"
         android:padding="14dp"
         android:text="Consulta de Veículo"
@@ -78,7 +78,7 @@
     <Button
         android:id="@+id/btnRegistrar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:text="Registrar irregularidade"
         android:layout_marginTop="25dp"
         android:layout_marginStart="10dp"
@@ -90,3 +90,4 @@
         />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
+

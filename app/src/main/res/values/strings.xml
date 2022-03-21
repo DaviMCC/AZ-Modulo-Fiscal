@@ -11,4 +11,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="insira_abaixo_a_placa_do_ve_culo">Insira abaixo a placa do veículo</string>
     <string name="placa_do_ve_culo">Placa do veículo</string>
+    <string name="consultar_placa_retorno_regular">Veículo em situação regular</string>
 </resources>
