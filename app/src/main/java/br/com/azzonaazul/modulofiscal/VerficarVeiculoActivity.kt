@@ -1,10 +1,12 @@
 package br.com.azzonaazul.modulofiscal
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
@@ -36,13 +38,17 @@ class VerficarVeiculoActivity : AppCompatActivity() {
         }
 
         btnConsultar.setOnClickListener {
+            it.hideKeyboard()
             consultarPlaca()
         }
-
-
         btnRegistrar = findViewById(R.id.btnRegistrar)
         tvMsgStatus = findViewById(R.id.tvMsgStatus)
 
+    }
+
+    fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
     private fun consultarPlaca() {
@@ -55,7 +61,7 @@ class VerficarVeiculoActivity : AppCompatActivity() {
         } else {
             val resultadoString = getConsultaPlaca(etPlaca.text.toString());
 
-            if (resultadoString.equals("Sem resposta")) {
+            if (resultadoString.toString().isEmpty()) {
                 tvMsgStatus.setText("Veiculo não encontrado")
                 tvMsgStatus.visibility = View.VISIBLE;
             } else {
@@ -67,7 +73,7 @@ class VerficarVeiculoActivity : AppCompatActivity() {
                     tvMsgStatus.setText(getString(R.string.consultar_placa_retorno_regular))
                     tvMsgStatus.setTextColor(Color.parseColor("#003383"));
                     tvMsgStatus.visibility = View.VISIBLE;
-                } else {
+                } else if(consulta.situacaoPagamento.equals("Não efetuado")){
                     tvMsgStatus.visibility = View.VISIBLE;
                     btnRegistrar.visibility = View.VISIBLE;
                 }
@@ -75,7 +81,7 @@ class VerficarVeiculoActivity : AppCompatActivity() {
         }
     }
 
-    fun getConsultaPlaca(placa: String): String {
+    fun getConsultaPlaca(placa: String): String? {
 
         var URL =
             "https://southamerica-east1-projeto-integrador-3-341623.cloudfunctions.net/verificarPlaca/?placa=" + placa
@@ -83,16 +89,10 @@ class VerficarVeiculoActivity : AppCompatActivity() {
         val request = Request.Builder().url(URL).get().build()
         val response = client.newCall(request).execute()
         val responseBody = response.body
+        val json = responseBody?.string()
+        println("Resposta" + json)
 
-        if (responseBody != null) {
-            val json = responseBody.string()
-            println("Resposta"  + json)
-            return json
-        }
-
-        // TODO: Arrumar caso onde o veiculo não é encontrado
-
-        return "Sem resposta"
+        return json
     }
 }
 
