@@ -43,11 +43,11 @@
         android:text="Itinerário"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginTop="15dp"
         android:textSize="20sp"
         android:textAlignment="center"
         android:backgroundTint="#003383"
         />
-
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

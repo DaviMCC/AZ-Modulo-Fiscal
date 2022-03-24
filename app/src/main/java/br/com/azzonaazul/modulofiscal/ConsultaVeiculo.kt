@@ -7,6 +7,7 @@ class ConsultaVeiculo {
 
     override fun toString(): String {
         return "ConsultaVeiculo(placa='$placa', situacaoPagamento='$situacaoPagamento')"
+
     }
 
 }
