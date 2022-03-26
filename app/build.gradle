@@ -22,6 +22,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildscript {
+        dependencies {
+            classpath "com.android.tools.build:gradle:7.1.2"
+        }
+    }
+
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -35,6 +43,15 @@ android {
 }
 
 dependencies {
+// 1 (implenentacão da API Camera2)
+    implementation 'androidx.camera:camera-camera2:1.1.0-beta02'
+// 2 (controladar de ciclo de vida da camera)
+    implementation 'androidx.camera:camera-lifecycle:1.1.0-beta02'
+// 3 (objeto Camera View para o PREVIEW)
+    implementation 'androidx.camera:camera-view:1.1.0-beta02'
+
+
+
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'androidx.core:core-ktx:1.7.0'
