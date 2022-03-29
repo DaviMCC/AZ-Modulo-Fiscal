@@ -16,5 +16,6 @@ class TelaInicialActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
     }
 }

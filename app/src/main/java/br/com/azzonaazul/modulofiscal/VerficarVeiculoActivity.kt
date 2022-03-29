@@ -1,12 +1,14 @@
 package br.com.azzonaazul.modulofiscal
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
@@ -44,6 +46,13 @@ class VerficarVeiculoActivity : AppCompatActivity() {
         btnRegistrar = findViewById(R.id.btnRegistrar)
         tvMsgStatus = findViewById(R.id.tvMsgStatus)
 
+        val btnRegistrar = findViewById<Button>(R.id.btnRegistrar)
+        btnRegistrar.setOnClickListener(){
+            val intent = Intent(this, RegistrarIrregularidadeActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
 
     fun View.hideKeyboard() {
@@ -58,12 +67,17 @@ class VerficarVeiculoActivity : AppCompatActivity() {
                 "Informe a placa do veículo que deseja consultar",
                 Snackbar.LENGTH_LONG
             ).show()
+            tvMsgStatus.visibility = View.GONE;
+            btnRegistrar.visibility = View.GONE;
         } else {
             val resultadoString = getConsultaPlaca(etPlaca.text.toString());
 
             if (resultadoString.toString().isEmpty()) {
                 tvMsgStatus.setText("Veiculo não encontrado")
                 tvMsgStatus.visibility = View.VISIBLE;
+                btnRegistrar.visibility = View.GONE;
+
+
             } else {
                 val gson = Gson()
                 var consulta = ConsultaVeiculo()
@@ -73,7 +87,10 @@ class VerficarVeiculoActivity : AppCompatActivity() {
                     tvMsgStatus.setText(getString(R.string.consultar_placa_retorno_regular))
                     tvMsgStatus.setTextColor(Color.parseColor("#003383"));
                     tvMsgStatus.visibility = View.VISIBLE;
+                    btnRegistrar.visibility = View.GONE;
                 } else if(consulta.situacaoPagamento.equals("Não efetuado")){
+                    tvMsgStatus.setText("Veiculo irregular")
+                    tvMsgStatus.setTextColor(Color.RED);
                     tvMsgStatus.visibility = View.VISIBLE;
                     btnRegistrar.visibility = View.VISIBLE;
                 }

@@ -3,10 +3,10 @@
     package="br.com.azzonaazul.modulofiscal">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-feature android:name="android.hardware.camera.any" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -17,24 +17,29 @@
         android:theme="@style/Theme.AzZonaAzulModuloFiscal">
         <activity
             android:name=".CameraPreviewActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AzZonaAzulModuloFiscal.NoActionBar" />
         <activity
             android:name=".RegistrarIrregularidadeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TelaInicialActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:theme="@style/Theme.AzZonaAzulModuloFiscal.NoActionBar" />
+
         <activity
             android:name=".VerficarVeiculoActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AzZonaAzulModuloFiscal.NoActionBar">
+            android:theme="@style/Theme.AzZonaAzulModuloFiscal.NoActionBar" />
+        <activity
+            android:name=".TelaInicialActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AzZonaAzulModuloFiscal.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity
+            >
     </application>
 
 </manifest>
