@@ -49,6 +49,7 @@ class VerficarVeiculoActivity : AppCompatActivity() {
         val btnRegistrar = findViewById<Button>(R.id.btnRegistrar)
         btnRegistrar.setOnClickListener(){
             val intent = Intent(this, RegistrarIrregularidadeActivity::class.java)
+            intent.putExtra("placa", etPlaca.text.toString())
             startActivity(intent)
         }
 

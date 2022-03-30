@@ -1,5 +1,6 @@
 package br.com.azzonaazul.modulofiscal
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -88,6 +89,9 @@ class CameraPreviewActivity : AppCompatActivity() {
                 object : ImageCapture.OnImageSavedCallback{
                     override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                         Log.i("CameraPreview", "A imagem foi salva no diretório: ${file.toURI()}")
+                        val intent = Intent()
+                        intent.putExtra("photoUri", file.toURI().toString())
+                        setResult(Activity.RESULT_OK, intent)
                         finish()
                     }
 
