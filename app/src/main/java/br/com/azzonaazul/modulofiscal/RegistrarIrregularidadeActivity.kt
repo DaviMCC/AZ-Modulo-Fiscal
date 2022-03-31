@@ -1,22 +1,37 @@
 package br.com.azzonaazul.modulofiscal
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.telephony.TelephonyManager
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.telephony.TelephonyManagerCompat
+import androidx.core.telephony.TelephonyManagerCompat.getImei
 import br.com.azzonaazul.modulofiscal.databinding.ActivityRegistrarIrregularidadeBinding
 import com.google.android.material.snackbar.Snackbar
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.log
 
 class  RegistrarIrregularidadeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistrarIrregularidadeBinding
 
-    private var photos = arrayOf("null", "null", "null", "null")
+    private var fotos = arrayOf("null", "null", "null", "null")
     private var whichBtn = 0
     private var placa = ""
 
@@ -47,10 +62,10 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
             cameraProviderResult.launch(android.Manifest.permission.CAMERA)
         }
         binding.btnRegistrar.setOnClickListener {
-            if(photos.contains("null")){
+            if(fotos.contains("null")){
                 Toast.makeText(binding.root.context, "Para efetuar o registro, tire 4 fotos de evidência", Toast.LENGTH_LONG).show()
             }else{
-
+                postRegistrarIrregularidade(placa, fotos)
             }
         }
     }
@@ -78,7 +93,7 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 val returnString = data!!.getStringExtra("photoUri")
-                photos.set(whichBtn-1, returnString.orEmpty())
+                fotos.set(whichBtn-1, returnString.orEmpty())
                 if(whichBtn == 1){
                     binding.btnIMG1.setBackgroundColor(Color.parseColor("#228B22"))
                 }else if(whichBtn == 2){
@@ -92,18 +107,28 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         }
     }
 
-    fun postRegistrarIrregularidade(placa: String): String? {
-        //TODO
-        var URL =
-            "https://southamerica-east1-projeto-integrador-3-341623.cloudfunctions.net/verificarPlaca/?placa=" + placa
-        val client = OkHttpClient()
-        val request = Request.Builder().url(URL).get().build()
-        val response = client.newCall(request).execute()
-        val responseBody = response.body
-        val json = responseBody?.string()
-        println("Resposta" + json)
 
-        return json
+    fun postRegistrarIrregularidade(placa: String, fotos : Array<String>) {
+        val irregularidade : Irregularidade = Irregularidade()
+
+        val date = Calendar.getInstance().time
+
+        var dateTimeFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+        irregularidade.data =  dateTimeFormat.format(date).toString()
+
+
+        val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        irregularidade.imei = "456123"
+
+        irregularidade.foto1 = fotos[0]
+        irregularidade.foto2 = fotos[1]
+        irregularidade.foto3 = fotos[2]
+        irregularidade.foto4 = fotos[3]
+        irregularidade.placa = placa
+
+        Log.e("AAAAAAAAA", irregularidade.toString())
+
+
     }
 }
 

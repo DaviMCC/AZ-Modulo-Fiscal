@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.text.InputFilter
+import android.text.InputFilter.AllCaps
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -30,7 +32,6 @@ class VerficarVeiculoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verficar_veiculo)
 
-
         etPlaca = findViewById(R.id.etPlaca)
         btnConsultar = findViewById(R.id.btnConsultar)
 
@@ -52,8 +53,6 @@ class VerficarVeiculoActivity : AppCompatActivity() {
             intent.putExtra("placa", etPlaca.text.toString())
             startActivity(intent)
         }
-
-
     }
 
     fun View.hideKeyboard() {
@@ -102,7 +101,7 @@ class VerficarVeiculoActivity : AppCompatActivity() {
     fun getConsultaPlaca(placa: String): String? {
 
         var URL =
-            "https://southamerica-east1-projeto-integrador-3-341623.cloudfunctions.net/verificarPlaca/?placa=" + placa
+            "https://southamerica-east1-projeto-integrador-3-341623.cloudfunctions.net/verificarPlaca/?placa=" + placa.uppercase()
         val client = OkHttpClient()
         val request = Request.Builder().url(URL).get().build()
         val response = client.newCall(request).execute()
