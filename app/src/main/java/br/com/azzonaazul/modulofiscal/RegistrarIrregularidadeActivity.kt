@@ -59,9 +59,13 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.btnRegistrar.setOnClickListener {
-            if(fotos.contains("null")){
-                Toast.makeText(binding.root.context, "Para efetuar o registro, tire 4 fotos de evidência", Toast.LENGTH_LONG).show()
-            }else{
+            if (fotos.contains("null")) {
+                Toast.makeText(
+                    binding.root.context,
+                    "Para efetuar o registro, tire 4 fotos de evidência",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
                 postRegistrarIrregularidade(placa, fotos)
             }
         }
@@ -90,14 +94,14 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 val returnString = data!!.getStringExtra("photoUri")
-                fotos.set(whichBtn-1, returnString.orEmpty())
-                if(whichBtn == 1){
+                fotos.set(whichBtn - 1, returnString.orEmpty())
+                if (whichBtn == 1) {
                     binding.btnIMG1.setBackgroundColor(Color.parseColor("#228B22"))
-                }else if(whichBtn == 2){
+                } else if (whichBtn == 2) {
                     binding.btnIMG2.setBackgroundColor(Color.parseColor("#228B22"))
-                }else if(whichBtn == 3){
+                } else if (whichBtn == 3) {
                     binding.btnIMG3.setBackgroundColor(Color.parseColor("#228B22"))
-                }else if(whichBtn == 4){
+                } else if (whichBtn == 4) {
                     binding.btnIMG4.setBackgroundColor(Color.parseColor("#228B22"))
                 }
             }
@@ -105,13 +109,13 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
     }
 
 
-    fun postRegistrarIrregularidade(placa: String, fotos : Array<String>) {
-        val irregularidade : Irregularidade = Irregularidade()
+    fun postRegistrarIrregularidade(placa: String, fotos: Array<String>) {
+        val irregularidade: Irregularidade = Irregularidade()
 
         val date = Calendar.getInstance().time
 
         var dateTimeFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
-        irregularidade.data =  dateTimeFormat.format(date).toString()
+        irregularidade.data = dateTimeFormat.format(date).toString()
 
 
         val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -137,30 +141,17 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         val responseBody = response.body
 
 
-            binding.tvMsgStatus.setText("Irregularidade registrada no sistema com sucesso.")
-            binding.tvMsgStatus.setTextColor(Color.parseColor("#003383"));
-            binding.btnIMG1.visibility = View.GONE
-            binding.btnIMG2.visibility = View.GONE
-            binding.btnIMG3.visibility = View.GONE
-            binding.btnIMG4.visibility = View.GONE
-            binding.btnRegistrar.visibility = View.GONE
-            binding.btnHome.visibility = View.VISIBLE
-            binding.tvMsgStatus.visibility = View.VISIBLE
-
-        if(10 > 20)
-            binding.tvMsgStatus.visibility = View.VISIBLE
-            binding.tvMsgStatus.setText("Houve um erro, irregularidade não registrada.")
-            binding.tvMsgStatus.setTextColor(Color.RED);
-            binding.btnIMG1.visibility = View.GONE
-            binding.btnIMG2.visibility = View.GONE
-            binding.btnIMG3.visibility = View.GONE
-            binding.btnIMG4.visibility = View.GONE
-            binding.btnHome.visibility + View.VISIBLE
-            binding.btnRegistrar.visibility = View.GONE
-            binding.btnRegistrar.visibility = View.VISIBLE
-
-        }
+        binding.tvMsgStatus.setText("Irregularidade registrada no sistema com sucesso.")
+        binding.tvMsgStatus.setTextColor(Color.parseColor("#003383"));
+        binding.btnIMG1.visibility = View.GONE
+        binding.btnIMG2.visibility = View.GONE
+        binding.btnIMG3.visibility = View.GONE
+        binding.btnIMG4.visibility = View.GONE
+        binding.btnRegistrar.visibility = View.GONE
+        binding.btnHome.visibility = View.VISIBLE
+        binding.tvMsgStatus.visibility = View.VISIBLE
     }
+}
 
 
 
