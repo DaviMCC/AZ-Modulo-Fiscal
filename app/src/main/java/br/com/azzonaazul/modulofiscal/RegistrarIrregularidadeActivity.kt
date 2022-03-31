@@ -1,31 +1,24 @@
 package br.com.azzonaazul.modulofiscal
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
-import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.telephony.TelephonyManagerCompat
-import androidx.core.telephony.TelephonyManagerCompat.getImei
 import br.com.azzonaazul.modulofiscal.databinding.ActivityRegistrarIrregularidadeBinding
 import com.google.android.material.snackbar.Snackbar
-import okhttp3.MediaType
+import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.log
 
 class  RegistrarIrregularidadeActivity : AppCompatActivity() {
 
@@ -60,6 +53,10 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         binding.btnIMG4.setOnClickListener {
             whichBtn = 4
             cameraProviderResult.launch(android.Manifest.permission.CAMERA)
+        }
+        binding.btnHome.setOnClickListener {
+            val intent = Intent(this, TelaInicialActivity::class.java)
+            startActivity(intent)
         }
         binding.btnRegistrar.setOnClickListener {
             if(fotos.contains("null")){
@@ -126,11 +123,45 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         irregularidade.foto4 = fotos[3]
         irregularidade.placa = placa
 
-        Log.e("AAAAAAAAA", irregularidade.toString())
+        val gson = Gson()
+        val json = gson.toJson(irregularidade)
 
 
+        var URL =
+            "https://southamerica-east1-projeto-integrador-3-341623.cloudfunctions.net/addIrregularidade"
+        val headerHttp = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val client = OkHttpClient()
+        val body = RequestBody.create(headerHttp, json)
+        val request = Request.Builder().url(URL).post(body).build()
+        val response = client.newCall(request).execute()
+        val responseBody = response.body
+
+
+            binding.tvMsgStatus.setText("Irregularidade registrada no sistema com sucesso.")
+            binding.tvMsgStatus.setTextColor(Color.parseColor("#003383"));
+            binding.btnIMG1.visibility = View.GONE
+            binding.btnIMG2.visibility = View.GONE
+            binding.btnIMG3.visibility = View.GONE
+            binding.btnIMG4.visibility = View.GONE
+            binding.btnRegistrar.visibility = View.GONE
+            binding.btnHome.visibility = View.VISIBLE
+            binding.tvMsgStatus.visibility = View.VISIBLE
+
+        if(10 > 20)
+            binding.tvMsgStatus.visibility = View.VISIBLE
+            binding.tvMsgStatus.setText("Houve um erro, irregularidade não registrada.")
+            binding.tvMsgStatus.setTextColor(Color.RED);
+            binding.btnIMG1.visibility = View.GONE
+            binding.btnIMG2.visibility = View.GONE
+            binding.btnIMG3.visibility = View.GONE
+            binding.btnIMG4.visibility = View.GONE
+            binding.btnHome.visibility + View.VISIBLE
+            binding.btnRegistrar.visibility = View.GONE
+            binding.btnRegistrar.visibility = View.VISIBLE
+
+        }
     }
-}
+
 
 
 

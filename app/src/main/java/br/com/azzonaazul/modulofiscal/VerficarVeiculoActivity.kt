@@ -69,7 +69,16 @@ class VerficarVeiculoActivity : AppCompatActivity() {
             ).show()
             tvMsgStatus.visibility = View.GONE;
             btnRegistrar.visibility = View.GONE;
-        } else {
+        }else if(etPlaca.text.toString().length != 7){
+            Snackbar.make(
+                tvMsgStatus,
+                "Placas válidas possuem 7 digitos",
+                Snackbar.LENGTH_LONG
+            ).show()
+            tvMsgStatus.visibility = View.GONE;
+            btnRegistrar.visibility = View.GONE;
+        }
+        else {
             val resultadoString = getConsultaPlaca(etPlaca.text.toString());
 
             if (resultadoString.toString().isEmpty()) {
