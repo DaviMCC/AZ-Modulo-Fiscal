@@ -138,18 +138,30 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         val body = RequestBody.create(headerHttp, json)
         val request = Request.Builder().url(URL).post(body).build()
         val response = client.newCall(request).execute()
-        val responseBody = response.body
+        val responseBody = response.body?.string()
 
-
-        binding.tvMsgStatus.setText("Irregularidade registrada no sistema com sucesso.")
-        binding.tvMsgStatus.setTextColor(Color.parseColor("#003383"));
-        binding.btnIMG1.visibility = View.GONE
-        binding.btnIMG2.visibility = View.GONE
-        binding.btnIMG3.visibility = View.GONE
-        binding.btnIMG4.visibility = View.GONE
-        binding.btnRegistrar.visibility = View.GONE
-        binding.btnHome.visibility = View.VISIBLE
-        binding.tvMsgStatus.visibility = View.VISIBLE
+        if (responseBody.toString().contains("salvo")) {
+            binding.tvMsgStatus.setText("Irregularidade registrada no sistema com sucesso.")
+            binding.tvMsgStatus.setTextColor(Color.parseColor("#003383"));
+            binding.btnIMG1.visibility = View.GONE
+            binding.btnIMG2.visibility = View.GONE
+            binding.btnIMG3.visibility = View.GONE
+            binding.btnIMG4.visibility = View.GONE
+            binding.btnRegistrar.visibility = View.GONE
+            binding.btnHome.visibility = View.VISIBLE
+            binding.tvMsgStatus.visibility = View.VISIBLE
+        } else {
+            binding.tvMsgStatus.visibility = View.VISIBLE
+            binding.tvMsgStatus.setText("Houve um erro, irregularidade não registrada.")
+            binding.tvMsgStatus.setTextColor(Color.RED);
+            binding.btnIMG1.visibility = View.GONE
+            binding.btnIMG2.visibility = View.GONE
+            binding.btnIMG3.visibility = View.GONE
+            binding.btnIMG4.visibility = View.GONE
+            binding.btnHome.visibility + View.VISIBLE
+            binding.btnRegistrar.visibility = View.GONE
+            binding.btnRegistrar.visibility = View.VISIBLE
+        }
     }
 }
 
