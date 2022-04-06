@@ -78,7 +78,7 @@ class CameraPreviewActivity : AppCompatActivity() {
 
     private fun takePhoto() {
         imageCapture?.let {
-            val fileName = "JPEG_${System.currentTimeMillis()}"
+            val fileName = "${System.currentTimeMillis()}"
             val file = File(externalMediaDirs[0], fileName)
 
             val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()

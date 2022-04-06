@@ -4,14 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.telephony.TelephonyManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import br.com.azzonaazul.modulofiscal.databinding.ActivityRegistrarIrregularidadeBinding
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -19,6 +25,8 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.log
+
 
 class  RegistrarIrregularidadeActivity : AppCompatActivity() {
 
@@ -121,10 +129,18 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         irregularidade.imei = "456123"
 
-        irregularidade.foto1 = fotos[0]
-        irregularidade.foto2 = fotos[1]
-        irregularidade.foto3 = fotos[2]
-        irregularidade.foto4 = fotos[3]
+        var result = uploadImage(fotos[0].toUri())
+        irregularidade.foto1 = result
+
+        result = uploadImage(fotos[1].toUri())
+        irregularidade.foto2 = result
+
+        result = uploadImage(fotos[2].toUri())
+        irregularidade.foto3 = result
+
+        result = uploadImage(fotos[3].toUri())
+        irregularidade.foto4 = result
+
         irregularidade.placa = placa
 
         val gson = Gson()
@@ -162,6 +178,15 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
             binding.btnRegistrar.visibility = View.GONE
             binding.btnRegistrar.visibility = View.VISIBLE
         }
+    }
+
+    private fun uploadImage(uri: Uri): String {
+        val path = "images/" + UUID.randomUUID() + ".png"
+        val storageReference = FirebaseStorage.getInstance().getReference(path);
+
+        storageReference.putFile(uri)
+        return storageReference.downloadUrl.result.toString()
+
     }
 }
 
