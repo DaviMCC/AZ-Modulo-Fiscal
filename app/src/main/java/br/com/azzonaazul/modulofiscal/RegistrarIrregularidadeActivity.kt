@@ -7,17 +7,14 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.telephony.TelephonyManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import br.com.azzonaazul.modulofiscal.databinding.ActivityRegistrarIrregularidadeBinding
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -25,7 +22,6 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.log
 
 
 class  RegistrarIrregularidadeActivity : AppCompatActivity() {
@@ -125,21 +121,25 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
         var dateTimeFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
         irregularidade.data = dateTimeFormat.format(date).toString()
 
-
-        val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        irregularidade.imei = "456123"
-
         var result = uploadImage(fotos[0].toUri())
-        irregularidade.foto1 = result
+        if (result != null) {
+            irregularidade.foto1 = result
+        }
 
         result = uploadImage(fotos[1].toUri())
-        irregularidade.foto2 = result
+        if (result != null) {
+            irregularidade.foto2 = result
+        }
 
         result = uploadImage(fotos[2].toUri())
-        irregularidade.foto3 = result
+        if (result != null) {
+            irregularidade.foto3 = result
+        }
 
         result = uploadImage(fotos[3].toUri())
-        irregularidade.foto4 = result
+        if (result != null) {
+            irregularidade.foto4 = result
+        }
 
         irregularidade.placa = placa
 
@@ -183,12 +183,13 @@ class  RegistrarIrregularidadeActivity : AppCompatActivity() {
     private fun uploadImage(uri: Uri): String {
         val path = "images/" + UUID.randomUUID() + ".png"
         val storageReference = FirebaseStorage.getInstance().getReference(path);
-
         storageReference.putFile(uri)
-        return storageReference.downloadUrl.result.toString()
 
+        return path.substring(7)
     }
 }
+
+
 
 
 
